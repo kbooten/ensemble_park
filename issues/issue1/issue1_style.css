@@ -1,0 +1,66 @@
+
+/*      //https://stackoverflow.com/a/8486324*/ 
+* { margin:0; padding:0; } /* to remove the top and left whitespace */
+html, body { width:100%; height:100%; } /* just to be sure these are full screen*/
+
+body{
+    font-family: "Old Standard TT"
+  }
+
+div.issue1-main-section{
+    width: 80vw;
+    min-width:350px;
+    max-width: 700px;
+    margin: 0 auto;
+    padding-top: 124px;
+    font-size: calc(15px + 0.4vw);
+  }
+
+div.issue1-process-section{
+    width: 80vw;
+    min-width:350px;
+    max-width: 700px;
+    margin: 0 auto;
+    padding-top: 124px;
+    font-size: calc(15px + 0.4vw);
+  }
+
+div.issue1-p {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+div.issue1-process-p {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+div.issue1-title{
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 25px;
+    font-size: calc(18px + 0.4vw);
+    font-style: italic;
+  }
+
+div.issue1-subtitle{
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 55px;
+    font-size: calc(14px + 0.4vw);
+    font-style: italic;
+  }
+
+div.issue1-author{
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 55px;
+    font-size: calc(14px + 0.4vw);
+  }
+
+div.issue1-process-title {
+    font-size: calc(18px + 0.4vw);
+    font-weight: bold;
+    padding-top: 20px;
+    padding-right: -10;
+  }
