@@ -5,26 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ensemble Park</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"> 
-
-<!--     <link rel="stylesheet" href="style.css"> -->
-<!--     <link rel="icon" href="./favicon.ico" type="image/x-icon">
- -->  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <style>
-
-      /*      //https://stackoverflow.com/a/8486324*/      
-      * { margin:0; padding:0; } /* to remove the top and left whitespace */
-      html, body { width:100%; height:100%; } /* just to be sure these are full screen*/
+      * { margin:0; padding:0; }
+      html, body { width:100%; height:100%; }
       
-
-      body{
-        font-family: "Old Standard TT"
+      body {
+        font-family: "Old Standard TT";
       }
 
-      #title-div{
+      #title-div {
         position: fixed;
         left: 50%;
         transform: translate(-50%, 0);
@@ -32,35 +25,14 @@
         z-index: 10;
       }
 
-      #subtitle-div{
+      #subtitle-div {
         text-align: center;
         padding-top: 50px;
         padding-bottom: 55px;
       }
 
-      #title-div{
-        position: fixed;
-        left: 50%;
-        transform: translate(-50%, 0);
-        padding: 10px;
-        z-index: 10;
-      }
-
-      #the-subtitle{
+      #the-subtitle {
         font-size: calc(18px + 0.4vw);
-        font-style: italic;
-      }
-
-      #call-dates{
-        padding-left: 7px;
-      }
-
-
-      .call-dates-emph{
-        padding-bottom: 8px;
-      }
-
-      .first-part-of-call-date{
         font-style: italic;
       }
 
@@ -81,577 +53,437 @@
         padding-right: -10;
       }
 
-      #main-text{
+      .subsection-heading {
+        font-size: calc(14px + 0.4vw);
+        font-weight: bold;
+        padding-top: 20px;
+        padding-right: -10;
+      }
+
+      #main-text {
         width: 80vw;
-        min-width:350px;
+        min-width: 350px;
         max-width: 700px;
         margin: 0 auto;
         padding-top: 124px;
         font-size: calc(15px + 0.4vw);
       }
 
-      #olddate{
-        text-decoration: line-through;
-      }
-
       @media (max-width: 768px) {
         #the-title {
           font-size: 30px;
         }
-        #title-div{
+        #title-div {
           padding: 23px;
         }
-        #main-text{
+        #main-text {
           font-size: calc(15px + 0.4vw);
         }
       }
 
-      canvas { display:block;
-        position: fixed;
-       } /* To remove the scrollbars */
+      canvas { display: block; position: fixed; }
 
-      body{
+      body {
         background-color: white;
       }
 
-      .fixedwidth{
-        font-family: monospace;
-        font-size: .9em;
+      .author-list {
+        margin: 0 auto;
+        padding: 20px;
+        width: 60%;
+        text-align: left;
       }
 
-      .ep{
-        font-style: italic;
+      #call-link {
+        display: block;
+        margin: 40px auto 0; /* More space above */
+        color: #b3abae;
+        text-decoration: none;
+        font-size: 20px;
+        text-align: center;
       }
 
-      #end{
+      #call-link:hover {
+        color: black; /* Change this to your desired hover color */
+      }
+
+      #issue-number {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        color: #b3abae;
+        font-size: 18px;
+        z-index: 100;
+      }
+
+      .issue-wrap{
+          margin-top: 30px;
+          padding-bottom: 40px; /* Extra padding for the bottom */
+          border: 2px solid black; /* 3px wide, solid style, with a hex 
+          color */
+      }
+
+      #end {
         padding-bottom: 20px;
+      }
+
+      #yearnum {
+        font-style: italic;
+        display: inline-block;
+        position: relative;
+        top: 1px; /* Adjust this value to position the P below the E */
+        left: -2px;
+      }
+
+      .up1 {
+        display: inline-block;
+        position: relative;
+        top: -1px;
+      }
+
+      .down1 {
+        display: inline-block;
+        position: relative;
+        top: 1px;
+      }
+
+      .issue1-print-request {
+        width: 100%; /* Make it take up the full width of its parent */
+        margin: 20px 0 2px 0; /* Center it vertically within the parent */
+        padding: 10px; /* Padding for the text inside the box */
+        font-size: calc(12.5px + 0.4vw);
+        background-color: #f5f5f5; /* Background color for the box */
+        border: 1px solid #ccc; /* Optional border for the box */
+        display: none; /* Hidden initially */
+        text-align: justify;
+        box-sizing: border-box; /* Ensure padding is included within width */
+      }
+
+      .fixedwidth {
+        font-family: monospace;
+        font-size: .8em;
+      }
+      
+      .issue-title {
+        font-size: calc(18px + 0.4vw);
+        font-weight: bold;
+        padding-top: 20px;
+        padding-right: -10;
+        text-align: center;
+      }
+      
+      .read-issue {
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        cursor: pointer;
+        color: #183033;
+        font-weight: bold;
+/*        text-shadow: 0 0 3px #5c8070;*/
+      }
+
+      .read-issue:hover{
+        color: #657575;
+      }
+
+      ul {
+        font-size: .9em;
+        padding-left: 50px;
+      }
+      
+      li {
+        padding-top: 8px;
+      }
+
+      #call-wrap{
+        margin-top: 56px;
       }
 
 
     </style>
   </head>
   <body>
-    <div id="title-div"><span id="the-title">Ensemble Park</span></div>
-    <canvas id="canvas"></canvas>
+<!--     <div id="issue-number">#1 20<span id="yearnum">24</span></div>
+ -->    <canvas id="canvas"></canvas>
     <div id="main-text">
-        <div id="subtitle-div"><span id="the-subtitle">A Journal of Human+Computer&nbspWriting</span></div>
-        <div class="paragraph">
-      <div class="main-section">
-        <div class="section-heading">
-          Call for Submissions
-        </div>
-        <div class="paragraph"></div>
-          We are seeking submissions of human+computer “co-writing” to <span class="ep">Ensemble Park</span>, a new literary journal devoted to supporting and bringing attention to this kind of work.  
-        </div>
-        <div class="paragraph">
-          Recently, impressive developments in text-generation technology have begun to spur some writers to experiment with authoring in tandem or in conversation with sophisticated algorithmic “intelligence.” However, experiments in human+computer co-writing long predate Large Language Models, and still are by no means limited to them. <span class="ep">Ensemble Park</span> will gather diverse examples from the vast possibility-space of interactions between human writers and all sorts of algorithms.
-        </div>
-        <div class="paragraph">
-          We seek poems, short stories, essays, and anything in between where there is significant human and computer entanglement. What does a poem look like if its metaphors have been computer-generated? What about an essay where alternative endings are generated by a language model? Or a story whose plot is partially dictated by a machine?  How might human and algorithmic writers collaborate as well as struggle against each other? Writing has always been iterative; what can this process look like when a computer is brought “in the loop”? 
-        </div>
-        <div class="paragraph">
-          While we are open to submissions written with Large Language Models, we are equally interested in those written with other sorts of computational feedback and collaboration, such as from bespoke text-generation programs, small-scale research artifacts (perhaps developed in Human-Computer Interaction or related fields), and—if used against the grain—ubiquitous human-language technologies, from spell-check to Grammarly and even Google Search. 
-        </div>
-        <div class="section-heading">
-          Process Statement
-        </div>
-        <div class="paragraph">
-          We ask that all submissions are accompanied by a short explanatory piece that documents and reflects upon the co-authorship process, including relevant technical details. These descriptions of human+computer interactions should be specific enough to allow others to imitate them and imagine their own based on them.
-        </div>
-        <div class="section-heading">
-          Submission Details
-        </div>
-        <div class="paragraph">
-          <span class="ep">Ensemble Park</span> will publish online as well as in print. This means that submissions must be text-based artifacts that are amenable to both formats; we will not be able to support any dynamic, interactive, or animated content.
-        </div>
-        <div class="paragraph">
-          While we have no strict length limits, we may ask to excerpt longer submissions. 
-        </div>
-        <div class="paragraph">
-          If you have any questions, including if you are unsure if your piece would be within the scope of the journal, please do not hesitate to email us at <span class="fixedwidth email">ensembleparkjournal@gmail.com</span>. 
-        </div>
-        <div class="paragraph">
-          Submissions will be read by the editors, Katy Gero and Kyle Booten. 
-        </div>
-        <div class="paragraph" id="call-dates">
-          <div class="call-dates-emph"><span class="first-part-of-call-date">Submissions due:</span> <span id="olddate">Dec 20th, 2023</span> Jan 10th, 2023</div>
-          <div class="call-dates-emph"><span class="first-part-of-call-date">Send submissions to:</span> <span class="fixedwidth email"></span></div>
-        </div>
-        <div id="end"></div>
-	<script>
+      <div id="subtitle-div"><span id="the-subtitle">A Journal of Human+Computer&nbspWriting</span></div>
+      <div class="paragraph">
+        <div class="main-section">
+          <div id="intro-wrap">
+          <div class="paragraph"><i>Ensemble Park</i> collects literary experiments in human-computer co-writing. Neither completely computer-generated nor absent of computational intervention, the works explore how machines may enter the literary process iteratively, and how literary artifacts may be changed by such iterations.</div>
+          <div class="paragraph">Each piece is accompanied by both a process note and (in the "PLUS" edition, print-only) a short interview with the author.</div>
+          </div>
+          <div class="issue-wrap">
+          <div class="issue-title">ISSUE #1</div>
+          <div class="author-list"></div>
+<!--           <div class="read-issue">☛ read <a href="https://www.ensemblepark.com/issues/ensemble_park_1.pdf" target="_blank">ISSUE #1 (online)</a></div>
+           -->
 
+          <div class="read-issue">
+            <a href="https://www.ensemblepark.com/issues/ensemble_park_1.pdf" target="_blank" style="all: unset;">
+              <span>☛ </span><span class="issue1-morph">r</span><span class="issue1-morph">e</span><span class="issue1-morph">a</span><span class="issue1-morph">d</span>
+              <span class="issue1-morph"> </span>
+              <span class="issue1-morph">I</span><span class="issue1-morph">S</span><span class="issue1-morph">S</span><span class="issue1-morph">U</span><span class="issue1-morph">E</span>
+              <span class="issue1-morph"> </span>
+              <span class="issue1-morph">#</span><span class="issue1-morph">1</span>
+              <span class="issue1-morph"> </span>
+              <span class="issue1-morph">(</span><span class="issue1-morph">o</span><span class="issue1-morph">n</span><span class="issue1-morph">l</span><span class="issue1-morph">i</span><span class="issue1-morph">n</span><span class="issue1-morph">e</span><span class="issue1-morph">)</span>
+            </a>
+          </div>
 
+          <div class="read-issue" id="acquire-issue">
+            <span>☛ </span><span class="issue1-morph">a</span><span class="issue1-morph">c</span><span class="issue1-morph">q</span><span class="issue1-morph">u</span><span class="issue1-morph">i</span><span class="issue1-morph">r</span><span class="issue1-morph">e</span>
+            <span class="issue1-morph"> </span>
+            <span class="issue1-morph">I</span><span class="issue1-morph">S</span><span class="issue1-morph">S</span><span class="issue1-morph">U</span><span class="issue1-morph">E</span>
+            <span class="issue1-morph"> </span>
+            <span class="issue1-morph">#</span><span class="issue1-morph">1</span>
+            <span class="issue1-morph"> </span>
+            <span class="issue1-morph">P</span><span class="issue1-morph">L</span><span class="issue1-morph">U</span><span class="issue1-morph">S</span>
+            <span class="issue1-morph"> </span>
+            <span class="issue1-morph">(</span><span class="issue1-morph">p</span><span class="issue1-morph">r</span><span class="issue1-morph">i</span><span class="issue1-morph">n</span><span class="issue1-morph">t</span><span class="issue1-morph">)</span>
+          </div>
 
-/// email
-var emailEncoded = '&#101;&#110;&#115;&#101;&#109;&#98;&#108;&#101;&#112;&#97;&#114;&#107;&#106;&#111;&#117;&#114;&#110;&#97;&#108;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;';
-tempElement = document.createElement('div');
-tempElement.innerHTML = emailEncoded;
-var decodedText = tempElement.textContent;
+<!--           <div class="read-issue" id="acquire-issue">☛ acquire ISSUE #1 PLUS (print)</div>
+ -->
+          <div class="issue1-print-request" id="print-request">
+            <p><i>Ensemble Park</i> Issue #1 PLUS is also available as a limited run print edition. To request a copy, email  <span class="fixedwidth email">ensemblepark+print1@gmail.com</span> with an anagram of <i>Ensemble Park</i> as the subject line, and a name and address in the body of the email.</p>
+          </div>
+          </div>
+          <div id="call-wrap">
+          <div class="section-heading">Call for Issue #2</div>
+          <div class="paragraph">We are seeking submissions of human+computer “co-writing” for Issue #2 of <i>Ensemble Park</i>, a literary journal devoted to supporting and bringing attention to new writerly processes.</div>
+          <div class="paragraph">Our first issue highlighted a variety of forms of computation—language models, yes, but also voice-to-text transcription, optical character recognition, esoteric programming languages, and even analogue oscillators. For Issue #2, we hope to expand this scope. In particular we are interested in:</div>
+          <ul>
+            <li>computation that supports world-building (e.g., a program that determines the weather at different points in the story);</li>
+            <li>unusual interaction paradigms, perhaps supported by less popular metaphors—instead of imaging the computer as a tool or an agent, perhaps the computer is a forest, an architect, a sticker pack;</li>
+            <li>more interactions with off-the-shelf, quotidian interfaces and infrastructure (e.g., writing that could not be accomplished without a web browser)</li>
+            <li>uses of Good Old-Fashioned AI, like schedulers, theorem provers, or ontologies;</li>
+            <li>antagonistic interactions with computers; and</li>
+            <li>new ways of using or interacting with language models, such as manipulating the logits in the output distribution or using custom language models to develop voices or textures</li>
+          </ul>
+          <div class="paragraph">We seek poems, short stories, essays, and anything in between where there is significant human and computer entanglement. We want to be surprised by the creative process. We also want writing that stands on its own.</div>
+          <div class="paragraph">While we are open to submissions written with large language models, we are equally interested in those written with other sorts of computational feedback and collaboration, as noted above. Submissions that engage with language models are encouraged to reflect on the role of the model in the writing process, and push the “incorporating suggested generated text” paradigm into new forms.</div>
+          <div class="subsection-heading">Process Statement</div>
+          <div class="paragraph">We ask that all submissions are accompanied by a short explanatory piece that documents and reflects upon the co-authorship process, including relevant technical details. These descriptions of human+computer interactions should be specific enough to allow others to imitate them and imagine their own writing process based on them.</div>
+          <div class="subsection-heading">Submission Details</div>
+          <div class="paragraph"><i>Ensemble Park</i> is published in print as well as online. This means that submissions must be text-based artifacts that are amenable to both formats; we will not be able to support any dynamic, interactive, animated, or, at this point, color content.</div>
+          <div class="paragraph">While we have no strict length limits, we may ask to excerpt longer submissions.</div>
+          <div class="paragraph">If you have any questions, including if you are unsure if your piece would be within the scope of the journal, please do not hesitate to email us at <span class="fixedwidth email">ensembleparkjournal@gmail.com</span>.</div>
+          <div class="paragraph">Submissions will be read by the editors, Katy Ilonka Gero and Kyle Booten.</div>
+          <div class="call-dates-emph"><span class="first-part-of-call-date">Submissions due:</span> Jan 10th, 2025</div>
+          <div class="call-dates-emph"><span class="first-part-of-call-date">Send submissions to:</span> <span class="fixedwidth email">ensembleparkjournal@gmail.com</span></div>
+          </div>
+          <div id="end"></div>
+        </div>
+      </div>
+    </div>
 
+    <script>
+      // RANDOMIZE FEATURED AUTHORS
+      function shuffle(array) {
+        let currentIndex = array.length;
+        while (currentIndex != 0) {
+          let randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+      }
 
-var email_divs = document.getElementsByClassName('email')
-for (var i = 0; i < email_divs.length; i++) {
-        // Step 3: Set the new text content for each element
+      var authors = ["Ian Hatcher", "kathy wu", "Joanna Zylinska", "Hannes Bajohr", "Alyssa Moore", "Malthe Stavning Erslev", "Mark Amerika", "Kavi Duvvoori", "Monica Storss", "christian faubel", "John Cayley"];
+      shuffle(authors);
+      var author_list_div = document.getElementsByClassName('author-list')[0];
+      for (var i = 0; i < authors.length-1; i++) {
+        author_list_div.innerHTML += authors[i] + ", ";
+      }
+      author_list_div.innerHTML += "and " + authors[authors.length-1] + ".";
+
+      // Show print request info when 'acquire ISSUE #1 PLUS (print)' is clicked
+      document.getElementById('acquire-issue').addEventListener('click', function() {
+        var button = this;
+        
+        // Show the print request info
+        document.getElementById('print-request').style.display = 'block';
+        
+        // Disable the button to prevent further clicks
+        button.style.pointerEvents = 'none'; // Disable interaction
+        button.style.opacity = '0.2';        // Gray out the button to indicate it's disabled
+        button.style.cursor = 'not-allowed'; // Change the cursor to indicate it can't be clicked
+        
+        // Optionally, add a class to handle further styling
+        button.classList.add('disabled');
+        
+      });
+
+      // Decode email
+      var emailEncoded = '&#101;&#110;&#115;&#101;&#109;&#98;&#108;&#101;&#112;&#97;&#114;&#107;&#106;&#111;&#117;&#114;&#110;&#97;&#108;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;';
+      tempElement = document.createElement('div');
+      tempElement.innerHTML = emailEncoded;
+      var decodedText = tempElement.textContent;
+      var email_divs = document.getElementsByClassName('email');
+      for (var i = 0; i < email_divs.length; i++) {
         email_divs[i].textContent = decodedText;
-    }
-
-
-
-const canvas = document.getElementById('canvas');
-const context = canvas.getContext('2d');
-
-
-/// various helper functions
-
-function getRandomNumber(min, max) {
-  // return random number
-    return Math.random() * (max - min) + min;
-}
-
-
-function box(start_x, start_y,up=true) {
-  // create a box, either up or down
-  let point_0_x = start_x;
-  let point_0_y;
-  if (up==true){
-    point_0_y = start_y + getRandomNumber(-4, 30);
-  }else{
-    point_0_y = start_y + getRandomNumber(-30, -4);
-  }
-  let point_1_x = point_0_x + 20;//;getRandomNumber(50, 30);
-  let point_1_y = point_0_y;
-
-  let point_2_x = point_1_x;
-  let point_2_y = start_y;
-
-  return [[point_0_x, point_0_y],[point_1_x, point_1_y],[point_2_x, point_2_y]];
-}
-
-
-function randomPointBetweenCentroidAndMidpoint(vertices) {
-  // Check if the input has four vertices
-  if (vertices.length !== 4) {
-    throw new Error("Invalid input: Quadrilateral should have 4 vertices.");
-  }
-
-  // Calculate the centroid
-  let sumX = 0;
-  let sumY = 0;
-
-  for (const vertex of vertices) {
-    sumX += vertex[0];
-    sumY += vertex[1];
-  }
-
-  const centroidX = sumX / 4;
-  const centroidY = sumY / 4;
-
-  // Get the x-coordinates of points 2 and 3
-  const x2 = vertices[1][0];
-  const x3 = vertices[2][0];
-
-  // Calculate the midpoint of the horizontal line created by points 2 and 3
-  const midpointX = (x2 + x3) / 2;
-  const midpointY = (vertices[1][1] + vertices[2][1]) / 2;
-
-  // Generate a random value between centroidY and midpointY (inclusive)
-  const randomY = Math.random() * (midpointY - centroidY) + centroidY;
-
-  // Return the point with the same x-value and the random y-value
-  return [centroidX, randomY];
-}
-
-
-function calculateDistance(x1, y1, x2, y2) {
-  // calc distance between two points
-  const deltaX = x2 - x1;
-  const deltaY = y2 - y1;
-  // Use the Pythagorean theorem to calculate the distance
-  const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-  return distance;
-}
-
-
-function getRandomSubsequences(arr, n, k) {
-  if (k <= 0 || k > arr.length) {
-    return "Invalid input: k is out of range";
-  }
-  
-  if (n <= 0) {
-    return "Invalid input: n must be greater than 0";
-  }
-
-  // Create an array to store the subsequences
-  const subsequences = [];
-
-  for (let i = 0; i < n; i++) {
-    // Create a copy of the original array for each subsequence
-    const copy = [...arr];
-    const subsequence = [];
-
-    // Randomly select k elements from the copy and add them to the subsequence
-    for (let j = 0; j < k; j++) {
-      const randomIndex = Math.floor(Math.random() * copy.length);
-      subsequence.push(copy.splice(randomIndex, 1)[0]);
-    }
-    subsequences.push(subsequence);
-  }
-  return subsequences;
-}
-
-
-function getPointsRandomLineTo(startX,startY,pointX, pointY, length, maxDeviationDegrees=70) {
-  // plots a line of a particular length from point to point but with some deviation
-
-  // Calculate the direction vector
-  const deltaX = pointX - startX;
-  const deltaY = pointY - startY;
-
-  // Calculate the length of the vector
-  const vectorLength = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-  // Calculate the angle of the direction vector
-  const angle = Math.atan2(deltaY, deltaX);
-
-  // Add randomness to the angle
-  const deviationRadians = (Math.random() - 0.5) * (maxDeviationDegrees * (Math.PI / 180));
-  const newAngle = angle + deviationRadians;
-
-  // Calculate the new direction vector
-  const newDeltaX = Math.cos(newAngle) * vectorLength;
-  const newDeltaY = Math.sin(newAngle) * vectorLength;
-
-  // Calculate the scaling factor to achieve the desired length
-  const scaleFactor = length / vectorLength;
-
-  // Calculate the endpoint
-  const endX = startX + scaleFactor * newDeltaX;
-  const endY = startY + scaleFactor * newDeltaY;
-
-  return [endX,endY];
-
-}
-
-
-function findFirstAndLastPointsOfLargestLines(points) {
-  /// for a series of points, returns those that form horiz or vert lines
-  /// omits shorter, redundant (internal) lines
-  const subsequences = [];
-  let currentHorizontalSubsequence = [];
-  let currentVerticalSubsequence = [];
-
-  // Helper function to check if two points form a horizontal line
-  function isHorizontalLine(point1, point2) {
-    return point1[1] === point2[1];
-  }
-
-  // Helper function to check if two points form a vertical line
-  function isVerticalLine(point1, point2) {
-    return point1[0] === point2[0];
-  }
-
-  for (let i = 1; i < points.length; i++) {
-    if (isVerticalLine(points[i - 1], points[i])) {
-      currentVerticalSubsequence.push(points[i - 1]);
-      currentVerticalSubsequence.push(points[i]);
-    } else if (currentVerticalSubsequence.length > 0) {
-      subsequences.push(currentVerticalSubsequence);
-      currentVerticalSubsequence = [];
-    }
-  }
-
-  // Push any remaining subsequences
-  if (currentHorizontalSubsequence.length > 0) {
-    subsequences.push(currentHorizontalSubsequence);
-  }
-  if (currentVerticalSubsequence.length > 0) {
-    subsequences.push(currentVerticalSubsequence);
-  }
-
-  // Extract the first and last points of each subsequence
-  const result = subsequences.map((subsequence) => [
-    subsequence[0], // First point
-    subsequence[subsequence.length - 1], // Last point
-  ]);
-
-  return result;
-}
-
-
-function interpolateYValuesForX(squigglyLinePoints, targetX) {
-  function interpolateYValue(points, x) {
-    for (let i = 0; i < points.length - 1; i++) {
-      const [x1, y1] = points[i];
-      const [x2, y2] = points[i + 1];
-
-      if (x1 <= x && x <= x2) {
-        // Calculate the interpolated y value using linear interpolation
-        const t = (x - x1) / (x2 - x1);
-        const interpolatedY = y1 + t * (y2 - y1);
-        return interpolatedY;
       }
-    }
 
-    return null; // If x is outside the range of provided points
-  }
+      // Drawing header
+      const canvas = document.getElementById('canvas');
+      const context = canvas.getContext('2d');
+      const arrowWidth = 40;
+      const margin = 10;
+      const extraMargin = 40;
+      const emptyRightMargin = arrowWidth + margin + extraMargin;
 
-  function getYValuesForX(points, x) {
-    const yValues = [];
-
-    for (const point of points) {
-      const [px, py] = point;
-
-      if (px === x) {
-        yValues.push(py);
+      function getRandomNumber(min, max) {
+        return Math.random() * (max - min) + min;
       }
-    }
 
-    return yValues;
-  }
-
-  const yValues = getYValuesForX(squigglyLinePoints, targetX);
-
-  if (yValues.length === 0) {
-    return "none"; // No matching x values
-  }
-
-  const interpolatedYValues = [];
-
-  for (const xValue of yValues) {
-    const interpolatedY = interpolateYValue(squigglyLinePoints, targetX);
-    interpolatedYValues.push(interpolatedY);
-  }
-
-  return interpolatedYValues;
-}
-
-
-function findMinimumDistance(jaggedLine, p0, p1) {
-  // for a series of points (jaggedLine), find the 
-  let minDistance = Number.POSITIVE_INFINITY;
-
-  for (let i = 0; i < jaggedLine.length - 1; i++) {
-    const pointA = jaggedLine[i];
-    const pointB = jaggedLine[i + 1];
-
-    // Check if the line segment defined by pointA and pointB intersects with the vertical line segment defined by p0 and p1
-    if (
-      ((pointA[0] >= Math.min(p0[0], p1[0]) && pointA[0] <= Math.max(p0[0], p1[0])) ||
-      (pointB[0] >= Math.min(p0[0], p1[0]) && pointB[0] <= Math.max(p0[0], p1[0]))) &&
-      (pointA[1] <= Math.max(p0[1], p1[1]) && pointB[1] >= Math.min(p0[1], p1[1]))
-    ) {
-      // Calculate the y-coordinate of the intercept using linear interpolation
-      const yIntercept = pointA[1] + ((p0[0] - pointA[0]) / (pointB[0] - pointA[0])) * (pointB[1] - pointA[1]);
-
-      // Check if the intercept is within the line segment between p0 and p1
-      if (yIntercept >= Math.min(p0[1], p1[1]) && yIntercept <= Math.max(p0[1], p1[1])) {
-        // Calculate the distance between the y-value of the intercept and either of the y-values of p0 and p1
-        const distanceToP0 = Math.abs(yIntercept - p0[1]);
-        const distanceToP1 = Math.abs(yIntercept - p1[1]);
-
-        // Update minDistance if a smaller distance is found
-        minDistance = Math.min(minDistance, distanceToP0, distanceToP1);
+      function box(start_x, start_y, up = true) {
+        let point_0_x = start_x;
+        let point_0_y = up ? start_y + getRandomNumber(-4, 30) : start_y + getRandomNumber(-30, -4);
+        let point_1_x = point_0_x + 20;
+        let point_1_y = point_0_y;
+        let point_2_x = point_1_x;
+        let point_2_y = start_y;
+        return [[point_0_x, point_0_y], [point_1_x, point_1_y], [point_2_x, point_2_y]];
       }
-    }
-  }
 
-  return minDistance;
-}
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = 175;
+        drawStuff();
+      }
 
-
-        
-function findIntercepts(jaggedLine, p0, p1) {
-  const [x, _] = p0; // Extract the common x-value
-
-  const intercepts = [];
-
-  for (let i = 0; i < jaggedLine.length - 1; i++) {
-    const pointA = jaggedLine[i];
-    const pointB = jaggedLine[i + 1];
-
-    // Check if the line segment defined by pointA and pointB intersects with the vertical line segment
-    if (
-      (pointA[0] <= x && pointB[0] >= x) ||
-      (pointA[0] >= x && pointB[0] <= x)
-    ) {
-      // Calculate the y-coordinate of the intercept using linear interpolation
-      const yIntercept = pointA[1] + ((x - pointA[0]) / (pointB[0] - pointA[0])) * (pointB[1] - pointA[1]);
-      intercepts.push(yIntercept);
-    }
-  }
-
-  return intercepts;
-}
-        
-function findSmallestDistance(yIntercepts, p0y, p1y) {
-  const distances = yIntercepts.map(y => Math.min(Math.abs(y - p0y), Math.abs(y - p1y))); // Calculate the smallest absolute differences from p0y and p1y
-
-  return Math.min(...distances); // Find the minimum difference
-}
-
-
-////////
-// D r a w i n g
-///////
-
-
-var line1color = "black"; 
-var line1width = 3;
-
-var line2color = "#FF6B6B";
-var line2width = 2;
-
-(function() {
-  var currentWidth = window.innerWidth; // Store the current width
-
-  window.addEventListener('resize', function() {
-    if (window.innerWidth !== currentWidth) { // Check if the width has changed
-      currentWidth = window.innerWidth; // Update the current width
-      resizeCanvas();
-    }
-  }, false);
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = 135;
-    drawStuff();
-  }
-
-  resizeCanvas();
-})();
-
-function drawStuff(){
-  //
-  // draws a boxy line
-  // draws a squiggy line based on the boxy line
-  //
-  const x_val = 0
-  const y_val = 100
-  let history = [[x_val,y_val],];
-  let current_x = x_val;
-  let current_y = y_val;//current_y = x_val,y_val
-  let box_upward = true;
-  let box_centroids = [];
-  let to_redraw = []
-  //
-  // initialize canvas
-  context.beginPath();
-  context.moveTo(x_val,y_val);
-
-  while (current_x<canvas.width) {
-    // lurch
-    if (Math.random()<.4){
-      current_x = current_x + getRandomNumber(100,150);
-      history.push([current_x,current_y]);    
-    }
-    // box
-    let box_points = box(current_x,current_y,up=box_upward);
-    history.push(...box_points);
-    box_points.unshift([current_x,current_y])
-    current_x = box_points[3][0];
-    current_y = box_points[3][1];
-    box_centroids.push(randomPointBetweenCentroidAndMidpoint(box_points));
-    // maybe change direction of boxes
-    //to_redraw.push([box_points[0],box_points[1]])
-    if (Math.random()<1){
-      box_upward = !box_upward; //toggle
-    }
-  };
-  // finish up
-  history.push([canvas.width,current_y]); 
-
-
-  //draw big shape that will be fixed
-  history2 = [...history]
-  const firstPoint = [0,history[0][1]]
-  const lastPoint = [canvas.width,history[history.length - 1][1]]
-  history2.unshift(firstPoint);
-  history2.push(lastPoint);
-  history2.unshift([0,0]);
-  history2.push([canvas.width,0])
-  context.fillStyle = 'white';
-  context.beginPath();
-  context.moveTo(0,0)
-  history2.forEach(function(item){
-    context.lineTo(...item);
-  });
-  context.closePath();
-  context.fill();
-
-
-  // actually draw
-  context.beginPath();
-  context.moveTo(0,90)
-  history.forEach(function(item) {
-    context.lineTo(...item);
-    context.strokeStyle = line1color;
-    context.lineWidth = line1width;
-    context.stroke();
-  });
-
-  // finish up
-
-
-  // draw second line
-  chase_points = drawChaseLine(box_centroids);
-
-  to_redraw = findFirstAndLastPointsOfLargestLines(history);
-
-
-  to_redraw.forEach(function(item){
-    if (Math.random()<100){
-      intercepts = findIntercepts(chase_points,item[0],item[1]);
-      sd = findSmallestDistance(intercepts,item[0][1],item[1][1]);
-      if (sd>10){
+      function drawStuff() {
+        const x_val = 40;
+        const y_val = 60;
+        let history = [[x_val, y_val],];
+        let current_x = x_val;
+        let current_y = y_val;
+        let box_upward = true;
+        const authorName = "ENSEMBLE PARK";
+        context.clearRect(0, 0, canvas.width, canvas.height);
         context.beginPath();
-        context.moveTo(...item[0]);
-        context.lineTo(...item[1]);
-        context.globalAlpha = 1.0;
-        context.strokeStyle = line1color;
-        context.lineWidth = line1width;
-        context.stroke();     
+        context.moveTo(x_val, y_val);
+        const stopBoxCreationX = canvas.width - emptyRightMargin;
+        while (current_x < stopBoxCreationX) {
+          if (Math.random() < 0.4) {
+            current_x += getRandomNumber(50, 100);
+            history.push([current_x, current_y]);
+          }
+          if (current_x < stopBoxCreationX) {
+            let box_points = box(current_x, current_y, box_upward);
+            history.push(...box_points);
+            box_points.unshift([current_x, current_y]);
+            current_x = box_points[3][0];
+            current_y = box_points[3][1];
+            if (Math.random() < 1) {
+              box_upward = !box_upward;
+            }
+          }
+        }
+        history.push([canvas.width, current_y]);
+        let history2 = [...history];
+        const firstPoint = [0, history[0][1]];
+        const lastPoint = [canvas.width, history[history.length - 1][1]];
+        history2.unshift(firstPoint);
+        history2.push(lastPoint);
+        history2.unshift([0, 0]);
+        history2.push([canvas.width, 0]);
+        context.fillStyle = '#f7f7f0';
+        context.beginPath();
+        context.moveTo(0, 0);
+        history2.forEach(function(item) {
+          context.lineTo(...item);
+        });
+        context.closePath();
+        context.fill();
+        context.beginPath();
+        context.moveTo(0, y_val);
+        history.forEach(function(item) {
+          context.lineTo(...item);
+          context.strokeStyle = '#f7f7f0';
+          context.lineWidth = 2;
+          context.stroke();
+        });
+        let maxLetterSpacing = 96;
+        let totalSpaceNeeded = maxLetterSpacing * (authorName.length - 1);
+        let availableSpace = canvas.width - 60 - emptyRightMargin;
+        let letterSpacing = Math.min(maxLetterSpacing, availableSpace / (authorName.length - 1));
+        let letterIndex = 0;
+        let xPosition = 40;
+        while (letterIndex < authorName.length) {
+          let yPosition = null;
+          for (let i = 0; i < history.length; i++) {
+            if (history[i][0] >= xPosition) {
+              yPosition = history[i][1];
+              break;
+            }
+          }
+          if (yPosition !== null) {
+            let mainLineY = y_val;
+            let letterYOffset = 0;
+            if (yPosition < mainLineY) {
+              letterYOffset = -5;
+            } else if (yPosition > mainLineY) {
+              letterYOffset = 5;
+            } else {
+              letterYOffset = getRandomNumber(-3, 3);
+            }
+            context.fillStyle = 'black';
+            context.font = '24px Old Standard TT';
+            context.textAlign = 'center';
+            context.fillText(authorName[letterIndex], xPosition, yPosition + 7 + letterYOffset);
+            letterIndex++;
+          }
+          xPosition += letterSpacing;
+        }
+      }
+
+      window.addEventListener('resize', resizeCanvas, false);
+      resizeCanvas();
+
+      ///
+
+// Select all spans with the class 'issue1-morph'
+const letters = document.querySelectorAll('.issue1-morph');
+
+// Predefined set of hex colors
+const colorSet = ['#183033'];//['#183329', 'black', 'black', 'black', '#183329', '#323b37', '#17401a', "#434743", "#666b66",'#183329', 'black', '#183329', 'black', 'black', 'black', '#183329','black', 'black', '#183329', '#323b37', '#17401a', "#434743", "#666b66",'#819181','#819181','#f723cd','#5f5bd9'];
+// const colorSet = ['#183329', 'black', 'black', 'black', '#183329', '#323b37', '#17401a', "#434743", "#666b66",'#183329', 'black', '#183329', 'black', 'black', 'black', '#183329','black', 'black', '#183329', '#323b37', '#17401a', "#434743", "#666b66",'#819181','#819181','#f723cd','#5f5bd9'];
+
+
+// Apply random transformations to each letter with a 70% chance of no change
+letters.forEach(letter => {
+  // Randomly decide whether to make a change (30% chance)
+  if (Math.random() <= 0.3) {
+    // Randomly decide to change either the position or the color
+    if (Math.random() <= 0.5) {
+      // Move the letter up or down by 1-3 pixels
+      const moveAmount = Math.floor(Math.random() * 7) - 3; // Random number between -3 and 3
+      letter.style.display = 'inline-block';
+      letter.style.transform = `translateY(${moveAmount}px)`;
+    } else {
+      // Change the color to a random color from the set
+      const randomColor = colorSet[Math.floor(Math.random() * colorSet.length)];
+      letter.style.color = randomColor;
+    }
+  }
+});
+
+// Run the changes on page load
+window.onload = () => {
+  letters.forEach(letter => {
+    if (Math.random() <= 0.3) {
+      if (Math.random() <= 0.5) {
+        const moveAmount = Math.floor(Math.random() * 7) - 3;
+        letter.style.display = 'inline-block';
+        letter.style.transform = `translateY(${moveAmount}px)`;
+      } else {
+        const randomColor = colorSet[Math.floor(Math.random() * colorSet.length)];
+        letter.style.color = randomColor;
       }
     }
   });
-  //trim right edge  
-  //context.clearRect(canvas.width-100, 0, canvas.width-100, canvas.height);
-}
-
-
-function drawChaseLine(points) {
-  // draws a line that chases a series of coordinates
-  points.push([canvas.width + 10, 100]);
-
-  const x_val = 0;
-  const y_val = 90+getRandomNumber(-10,10);
-
-  context.beginPath();
-  context.moveTo(x_val, y_val);
-
-  let current_x = x_val;
-  let current_y = y_val;
-
-  let chase_history = [];
-
-  points.forEach(function(item) {
-    let goal_x = item[0];
-    let goal_y = item[1];
-    let attempts = 100;
-    while (calculateDistance(current_x, current_y, goal_x, goal_y) > 5 && attempts > 0) {
-      let new_point = getPointsRandomLineTo(current_x, current_y, goal_x, goal_y, length = getRandomNumber(2,10));
-      context.strokeStyle = line2color;
-      context.lineWidth = line2width;
-      context.lineTo(new_point[0], new_point[1]);
-      context.stroke();
-      current_x = new_point[0];
-      current_y = new_point[1];
-      chase_history.push(new_point);
-      attempts -= 1;
-    }
-  });
-  return chase_history;
-}
-
-  </script>
+};
+    </script>
   </body>
 </html>
