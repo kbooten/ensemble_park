@@ -66,6 +66,8 @@
     .text-panel a {
       color: blue;
       text-decoration: underline;
+      pointer-events: auto;
+      touch-action: manipulation;
     }
 
     .message-block {
@@ -88,11 +90,14 @@
       pointer-events: none;
     }
 
-    /* mobile: prevent native fling scrolling inside the panels */
     @media (pointer: coarse) {
       .text-panel {
         touch-action: none;
         -webkit-overflow-scrolling: auto;
+      }
+
+      .text-panel a {
+        touch-action: manipulation;
       }
     }
   </style>
@@ -310,7 +315,6 @@ function isBlocked(panel) {
   return false;
 }
 
-/* DESKTOP: keep your old behavior */
 document.addEventListener("wheel", function (e) {
   const panel = e.target.closest(".text-panel");
   if (!panel) return;
@@ -347,10 +351,14 @@ document.addEventListener("wheel", function (e) {
   });
 }, { passive: false });
 
-/* MOBILE: custom slow drag */
 document.addEventListener("touchstart", function (e) {
   const panel = e.target.closest(".text-panel");
   if (!panel) return;
+
+  const link = e.target.closest("a");
+  if (link) {
+    return;
+  }
 
   const touch = e.changedTouches[0];
   if (!touch) return;
@@ -385,7 +393,7 @@ document.addEventListener("touchmove", function (e) {
     const dy = state.lastY - touch.clientY;
     state.lastY = touch.clientY;
 
-    const speed = 0.35;
+    const speed = 0.18;
     const nextTop = clamp(
       panel.scrollTop + dy * speed,
       0,
@@ -427,13 +435,13 @@ document.addEventListener("touchcancel", function (e) {
 }, { passive: false });
 
 document.addEventListener("mousedown", function (e) {
-  if (e.target.closest(".text-panel")) {
+  if (e.target.closest(".text-panel") && !e.target.closest("a")) {
     e.preventDefault();
   }
 });
 
 document.addEventListener("selectstart", function (e) {
-  if (e.target.closest(".text-panel")) {
+  if (e.target.closest(".text-panel") && !e.target.closest("a")) {
     e.preventDefault();
   }
 });
