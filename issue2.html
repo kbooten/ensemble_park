@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ordered Scroll Boxes</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #f7f7f0;
+      overflow-x: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #stage {
+      position: relative;
+      width: 100vw;
+      min-height: 100vh;
+    }
+
+    .text-box {
+      position: absolute;
+      width: 2.15in;
+      height: 3.15in;
+      box-sizing: border-box;
+    }
+
+    .text-panel {
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0.14in;
+      border: 2px solid black;
+      background: white;
+      color: black;
+
+      font-size: 24px;
+      line-height: 0.95;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+
+      overflow-wrap: anywhere;
+      word-break: break-all;
+
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      user-select: none;
+
+      transition: background 0.18s, color 0.18s, border-color 0.18s, opacity 0.18s;
+    }
+
+    .text-panel::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    .text-panel a {
+      color: blue;
+      text-decoration: underline;
+    }
+
+    .message-block {
+      margin-bottom: 0.6em;
+    }
+
+    .text-box.done .text-panel {
+      background: #f7f7f0;
+      color: blue;
+      border-color: blue;
+      cursor: default;
+    }
+
+    .text-box.done .text-panel a {
+      color: blue;
+    }
+
+    .text-box.locked .text-panel {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<div id="stage"></div>
+
+<script src="messages.js"></script>
+
+<script>
+const stage = document.getElementById("stage");
+
+const LOCKED_ID = "box-5";
+const REQUIRED_ID = "box-4";
+
+const completedIds = new Set();
+
+function normalizeId(value) {
+  return String(value ?? "").trim();
+}
+
+function getItemId(item, index) {
+  if (item && item.id != null) return normalizeId(item.id);
+  return `message-${index}`;
+}
+
+function messageToHtml(message) {
+  const lines = String(message ?? "").split("\n");
+  let html = "";
+
+  for (const line of lines) {
+    const gapMatch = line.trim().match(/^\[gap:(\d+)\]$/);
+
+    if (gapMatch) {
+      const size = parseInt(gapMatch[1], 10);
+      html += `<div style="height:${size * 0.6}em;"></div>`;
+    } else if (line.trim() === "") {
+      html += `<div style="height:0.6em;"></div>`;
+    } else {
+      html += `<div>${line}</div>`;
+    }
+  }
+
+  return `<div class="message-block">${html}</div>`;
+}
+
+function rectsOverlap(a, b, gap = 16) {
+  return !(
+    a.right + gap <= b.left ||
+    a.left >= b.right + gap ||
+    a.bottom + gap <= b.top ||
+    a.top >= b.bottom + gap
+  );
+}
+
+function collides(candidate, placed, gap = 18) {
+  return placed.some(r => rectsOverlap(candidate, r, gap));
+}
+
+function randomIn(min, max) {
+  return min + Math.random() * Math.max(0, max - min);
+}
+
+function isLockedId(id) {
+  return id === LOCKED_ID && !completedIds.has(REQUIRED_ID);
+}
+
+function createBox(item, index) {
+  const id = getItemId(item, index);
+
+  const box = document.createElement("div");
+  box.className = "text-box";
+  box.dataset.index = String(index);
+  box.dataset.messageId = id;
+
+  if (isLockedId(id)) {
+    box.classList.add("locked");
+  }
+
+  box.innerHTML = `
+    <div class="text-panel" data-index="${index}" data-message-id="${id}">
+      ${messageToHtml(item.message)}
+    </div>
+  `;
+
+  if (completedIds.has(id)) {
+    box.classList.add("done");
+  }
+
+  stage.appendChild(box);
+  return box;
+}
+
+function placeBoxes() {
+  stage.innerHTML = "";
+
+  const placed = [];
+  const margin = 16;
+  const stageWidth = window.innerWidth;
+  const stageHeight = window.innerHeight;
+
+  for (let i = 0; i < items.length; i++) {
+    const box = createBox(items[i], i);
+
+    const w = box.offsetWidth;
+    const h = box.offsetHeight;
+
+    const minLeft = margin;
+    const maxLeft = Math.max(minLeft, stageWidth - w - margin);
+    const minTop = margin + i * 18;
+    const maxTop = Math.max(minTop, stageHeight - h - margin);
+
+    let found = null;
+
+    for (let attempt = 0; attempt < 4000; attempt++) {
+      const left = randomIn(minLeft, maxLeft);
+      const top = randomIn(minTop, maxTop);
+
+      const candidate = {
+        left,
+        top,
+        right: left + w,
+        bottom: top + h
+      };
+
+      if (!collides(candidate, placed, 18)) {
+        found = candidate;
+        break;
+      }
+    }
+
+    if (!found) {
+      let top = minTop;
+
+      while (!found) {
+        for (let left = minLeft; left <= maxLeft; left += 20) {
+          const candidate = {
+            left,
+            top,
+            right: left + w,
+            bottom: top + h
+          };
+
+          if (!collides(candidate, placed, 18)) {
+            found = candidate;
+            break;
+          }
+        }
+        top += 20;
+      }
+    }
+
+    box.style.left = `${found.left}px`;
+    box.style.top = `${found.top}px`;
+
+    placed.push(found);
+  }
+
+  restoreCompletedScrollPositions();
+}
+
+function restoreCompletedScrollPositions() {
+  document.querySelectorAll(".text-panel").forEach(panel => {
+    const id = normalizeId(panel.dataset.messageId);
+    if (completedIds.has(id)) {
+      panel.scrollTop = panel.scrollHeight;
+    }
+  });
+}
+
+function atBottom(panel) {
+  return panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 2;
+}
+
+function revealLockedBoxIfNeeded() {
+  if (!completedIds.has(REQUIRED_ID)) return;
+
+  const lockedBox = document.querySelector(`.text-box[data-message-id="${LOCKED_ID}"]`);
+  if (!lockedBox) return;
+
+  lockedBox.classList.remove("locked");
+}
+
+function markDone(panel) {
+  const id = normalizeId(panel.dataset.messageId);
+  if (completedIds.has(id)) return;
+
+  completedIds.add(id);
+
+  const box = panel.closest(".text-box");
+  if (box) box.classList.add("done");
+
+  panel.scrollTop = panel.scrollHeight;
+
+  if (id === REQUIRED_ID) {
+    revealLockedBoxIfNeeded();
+  }
+}
+
+document.addEventListener("wheel", function (e) {
+  const panel = e.target.closest(".text-panel");
+  if (!panel) return;
+
+  const id = normalizeId(panel.dataset.messageId);
+  const box = panel.closest(".text-box");
+
+  if (box && box.classList.contains("locked")) {
+    e.preventDefault();
+    return;
+  }
+
+  if (completedIds.has(id)) {
+    e.preventDefault();
+    return;
+  }
+
+  e.preventDefault();
+
+  const speed = 0.35;
+  const nextTop = panel.scrollTop + e.deltaY * speed;
+
+  panel.scrollTo({
+    top: nextTop,
+    behavior: "smooth"
+  });
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (atBottom(panel)) {
+        markDone(panel);
+      }
+    });
+  });
+}, { passive: false });
+
+document.addEventListener("mousedown", function (e) {
+  if (e.target.closest(".text-panel")) {
+    e.preventDefault();
+  }
+});
+
+document.addEventListener("selectstart", function (e) {
+  if (e.target.closest(".text-panel")) {
+    e.preventDefault();
+  }
+});
+
+document.addEventListener("keydown", function (e) {
+  const blocked = [
+    "ArrowDown", "ArrowUp", "PageDown", "PageUp",
+    "Home", "End", " ", "Spacebar"
+  ];
+
+  if (!blocked.includes(e.key)) return;
+
+  const hoveredPanel = document.querySelector(".text-panel:hover");
+  if (hoveredPanel) {
+    e.preventDefault();
+  }
+});
+
+window.addEventListener("load", function () {
+  placeBoxes();
+});
+
+window.addEventListener("resize", function () {
+  placeBoxes();
+});
+</script>
+
+</body>
+</html>
