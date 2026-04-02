@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reader</title>
+<title>Ensemble Park #2</title>
 
 <style>
   html, body {
@@ -119,11 +119,9 @@ let nextSide = "left";
 const activeTouches = new Map();
 
 function nextImageSrc() {
-  const MAX = 60; // 0–59
-
+  const MAX = 60;
   const num = String(imageIndex % MAX).padStart(3, "0");
   imageIndex += 1;
-
   return `tiles/tile_${num}.webp`;
 }
 
@@ -155,7 +153,6 @@ function addImage(side) {
   const inner = document.createElement("div");
   inner.className = `image-inner image-${side}`;
 
-  // 🔺 random push (0–100px outward)
   const push = Math.pow(Math.random(), 1.5) * 100;
 
   if (side === "left") {
@@ -200,11 +197,6 @@ function render(text) {
 
 render(STORY_TEXT);
 
-
-// ----------------------------
-// SLOW SCROLL (working version)
-// ----------------------------
-
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
@@ -213,19 +205,28 @@ function maxScrollTop() {
   return Math.max(0, scrollPanel.scrollHeight - scrollPanel.clientHeight);
 }
 
-const WHEEL_SPEED = 0.78;
-const TOUCH_SPEED = 0.78;
-const KEY_SPEED = 0.78;
+// wheel still a bit slower than normal
+const WHEEL_SPEED = 0.92;
 
-// wheel
+// mousepad / touch faster
+const TOUCH_SPEED = 1.22;
+
+// keyboard still restrained
+const KEY_SPEED = 0.92;
+
+// wheel / trackpad
 document.addEventListener("wheel", function (e) {
   const link = e.target.closest("a");
   if (link) return;
 
   e.preventDefault();
 
+  // accelerate small-delta gestures more aggressively
+  const isTrackpadLike = Math.abs(e.deltaY) < 40;
+  const appliedSpeed = isTrackpadLike ? 1.28 : WHEEL_SPEED;
+
   const nextTop = clamp(
-    scrollPanel.scrollTop + e.deltaY * WHEEL_SPEED,
+    scrollPanel.scrollTop + e.deltaY * appliedSpeed,
     0,
     maxScrollTop()
   );
@@ -293,11 +294,11 @@ document.addEventListener("keydown", function (e) {
 
   let delta = null;
 
-  if (e.key === "ArrowDown") delta = 80 * KEY_SPEED;
-  if (e.key === "ArrowUp") delta = -80 * KEY_SPEED;
-  if (e.key === "PageDown") delta = scrollPanel.clientHeight * 0.72 * KEY_SPEED;
-  if (e.key === "PageUp") delta = -scrollPanel.clientHeight * 0.72 * KEY_SPEED;
-  if (e.key === " ") delta = scrollPanel.clientHeight * (e.shiftKey ? -0.72 : 0.72) * KEY_SPEED;
+  if (e.key === "ArrowDown") delta = 95 * KEY_SPEED;
+  if (e.key === "ArrowUp") delta = -95 * KEY_SPEED;
+  if (e.key === "PageDown") delta = scrollPanel.clientHeight * 0.75 * KEY_SPEED;
+  if (e.key === "PageUp") delta = -scrollPanel.clientHeight * 0.75 * KEY_SPEED;
+  if (e.key === " ") delta = scrollPanel.clientHeight * (e.shiftKey ? -0.75 : 0.75) * KEY_SPEED;
   if (e.key === "Home") delta = -Infinity;
   if (e.key === "End") delta = Infinity;
 
