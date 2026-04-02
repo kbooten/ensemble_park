@@ -119,9 +119,11 @@ let nextSide = "left";
 const activeTouches = new Map();
 
 function nextImageSrc() {
-  const MAX = 60;
+  const MAX = 60; // 0–59
+
   const num = String(imageIndex % MAX).padStart(3, "0");
   imageIndex += 1;
+
   return `tiles/tile_${num}.webp`;
 }
 
@@ -153,6 +155,7 @@ function addImage(side) {
   const inner = document.createElement("div");
   inner.className = `image-inner image-${side}`;
 
+  // 🔺 random push (0–100px outward)
   const push = Math.pow(Math.random(), 1.5) * 100;
 
   if (side === "left") {
@@ -198,11 +201,9 @@ function render(text) {
 render(STORY_TEXT);
 
 
-// --------------------------------------------------
-// SCROLL TUNING
-// wheel stays about where it was
-// trackpad gets boosted so it feels closer to wheel
-// --------------------------------------------------
+// ----------------------------
+// SLOW SCROLL (working version)
+// ----------------------------
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
@@ -212,164 +213,22 @@ function maxScrollTop() {
   return Math.max(0, scrollPanel.scrollHeight - scrollPanel.clientHeight);
 }
 
-const WHEEL_SPEED = 0.82;
-const TRACKPAD_SPEED = 2.15;
-const TRACKPAD_SMOOTHING = 0.72;
-const TOUCH_SPEED = 0.55;
-const KEY_SPEED = 0.86;
+const WHEEL_SPEED = 0.78;
+const TOUCH_SPEED = 0.78;
+const KEY_SPEED = 0.78;
 
-let wheelTarget = 0;
-let wheelAnimating = false;
-let lastWheelTime = 0;
-
-function isLikelyTrackpad(e) {
-  const absX = Math.abs(e.deltaX);
-  const absY = Math.abs(e.deltaY);
-  const maxDelta = Math.max(absX, absY);
-
-  if (e.deltaMode !== 0) return false;
-  if (absX > 0) return true;
-  if (!Number.isInteger(e.deltaY)) return true;
-  if (maxDelta > 0 && maxDelta < 18) return true;
-
-  const now = performance.now();
-  const dt = now - lastWheelTime;
-  lastWheelTime = now;
-
-  if (dt < 18 && maxDelta < 40) return true;
-  return false;
-}
-
-
-// --------------------------------------------------
-// STOP ON LAST IMAGE IN A CONSECUTIVE IMAGE RUN
-// --------------------------------------------------
-
-let stopPoints = [];
-let lockedStopIndex = -1;
-let snapCooldownUntil = 0;
-
-function collectStopPoints() {
-  const allImages = Array.from(document.querySelectorAll(".image-wrap"));
-  stopPoints = [];
-
-  for (let i = 0; i < allImages.length; i++) {
-    const current = allImages[i];
-    const next = allImages[i + 1];
-
-    const stopY = clamp(
-      Math.round(current.offsetTop + current.offsetHeight - scrollPanel.clientHeight),
-      0,
-      maxScrollTop()
-    );
-
-    const currentIsFollowedByImage =
-      next &&
-      next.classList.contains("image-wrap") &&
-      next.previousElementSibling === current;
-
-    if (!currentIsFollowedByImage) {
-      stopPoints.push({
-        el: current,
-        y: stopY
-      });
-    }
-  }
-}
-
-function releaseLockIfNeeded(currentTop) {
-  if (lockedStopIndex === -1) return;
-
-  const lockedY = stopPoints[lockedStopIndex]?.y;
-  if (lockedY == null) {
-    lockedStopIndex = -1;
-    return;
-  }
-
-  if (currentTop < lockedY - 50 || currentTop > lockedY + 90) {
-    lockedStopIndex = -1;
-  }
-}
-
-function maybeArrestTarget(fromTop, toTop) {
-  const now = performance.now();
-  if (now < snapCooldownUntil) return toTop;
-
-  releaseLockIfNeeded(fromTop);
-
-  if (toTop <= fromTop) return toTop;
-
-  for (let i = 0; i < stopPoints.length; i++) {
-    if (i === lockedStopIndex) continue;
-
-    const stopY = stopPoints[i].y;
-
-    if (fromTop < stopY && toTop >= stopY) {
-      lockedStopIndex = i;
-      snapCooldownUntil = now + 140;
-      return stopY;
-    }
-  }
-
-  return toTop;
-}
-
-
-// --------------------------------------------------
-// TRACKPAD ANIMATION
-// --------------------------------------------------
-
-function animateTrackpadScroll() {
-  wheelAnimating = true;
-
-  const current = scrollPanel.scrollTop;
-  const diff = wheelTarget - current;
-
-  if (Math.abs(diff) < 0.5) {
-    scrollPanel.scrollTop = wheelTarget;
-    wheelAnimating = false;
-    return;
-  }
-
-  scrollPanel.scrollTop = current + diff * TRACKPAD_SMOOTHING;
-  requestAnimationFrame(animateTrackpadScroll);
-}
-
-function nudgeTrackpadTarget(delta) {
-  const base = wheelAnimating ? wheelTarget : scrollPanel.scrollTop;
-  let nextTop = clamp(base + delta, 0, maxScrollTop());
-  nextTop = maybeArrestTarget(base, nextTop);
-  wheelTarget = nextTop;
-
-  if (!wheelAnimating) {
-    animateTrackpadScroll();
-  }
-}
-
-
-// --------------------------------------------------
-// WHEEL / TRACKPAD
-// --------------------------------------------------
-
+// wheel
 document.addEventListener("wheel", function (e) {
   const link = e.target.closest("a");
   if (link) return;
 
   e.preventDefault();
 
-  if (isLikelyTrackpad(e)) {
-    nudgeTrackpadTarget(e.deltaY * TRACKPAD_SPEED);
-    return;
-  }
-
-  const current = scrollPanel.scrollTop;
-  let nextTop = clamp(
-    current + e.deltaY * WHEEL_SPEED,
+  const nextTop = clamp(
+    scrollPanel.scrollTop + e.deltaY * WHEEL_SPEED,
     0,
     maxScrollTop()
   );
-
-  nextTop = maybeArrestTarget(current, nextTop);
 
   scrollPanel.scrollTo({
     top: nextTop,
@@ -377,11 +236,7 @@ document.addEventListener("wheel", function (e) {
   });
 }, { passive: false });
 
-
-// --------------------------------------------------
-// TOUCH
-// --------------------------------------------------
-
+// touch
 document.addEventListener("touchstart", function (e) {
   const link = e.target.closest("a");
   if (link) return;
@@ -406,14 +261,11 @@ document.addEventListener("touchmove", function (e) {
     const dy = state.lastY - touch.clientY;
     state.lastY = touch.clientY;
 
-    const current = scrollPanel.scrollTop;
-    let nextTop = clamp(
-      current + dy * TOUCH_SPEED,
+    const nextTop = clamp(
+      scrollPanel.scrollTop + dy * TOUCH_SPEED,
       0,
       maxScrollTop()
     );
-
-    nextTop = maybeArrestTarget(current, nextTop);
 
     scrollPanel.scrollTop = nextTop;
     handled = true;
@@ -434,11 +286,7 @@ document.addEventListener("touchcancel", function (e) {
   }
 }, { passive: false });
 
-
-// --------------------------------------------------
-// KEYBOARD
-// --------------------------------------------------
-
+// keyboard
 document.addEventListener("keydown", function (e) {
   const tag = document.activeElement && document.activeElement.tagName;
   if (tag === "INPUT" || tag === "TEXTAREA") return;
@@ -467,14 +315,11 @@ document.addEventListener("keydown", function (e) {
     return;
   }
 
-  const current = scrollPanel.scrollTop;
-  let nextTop = clamp(
-    current + delta,
+  const nextTop = clamp(
+    scrollPanel.scrollTop + delta,
     0,
     maxScrollTop()
   );
-
-  nextTop = maybeArrestTarget(current, nextTop);
 
   scrollPanel.scrollTo({
     top: nextTop,
@@ -482,16 +327,7 @@ document.addEventListener("keydown", function (e) {
   });
 }, { passive: false });
 
-
-// --------------------------------------------------
-// MISC
-// --------------------------------------------------
-
-window.addEventListener("resize", function () {
-  collectStopPoints();
-  wheelTarget = clamp(scrollPanel.scrollTop, 0, maxScrollTop());
-});
-
+// prevent text dragging (except links)
 document.addEventListener("mousedown", function (e) {
   if (e.target.closest(".text-block") && !e.target.closest("a")) {
     e.preventDefault();
@@ -503,23 +339,6 @@ document.addEventListener("selectstart", function (e) {
     e.preventDefault();
   }
 });
-
-window.addEventListener("load", function () {
-  collectStopPoints();
-  wheelTarget = scrollPanel.scrollTop;
-});
-
-document.querySelectorAll(".image-wrap img").forEach((img) => {
-  if (!img.complete) {
-    img.addEventListener("load", function () {
-      collectStopPoints();
-      wheelTarget = clamp(scrollPanel.scrollTop, 0, maxScrollTop());
-    });
-  }
-});
-
-collectStopPoints();
-wheelTarget = scrollPanel.scrollTop;
 </script>
 
 </body>
