@@ -208,19 +208,17 @@ and not-AI
 <break12>
 <break12>
 anti-slop studies
-<break12>
+<break17>
 <r>
 writing that is
 <l>
-"computational"
-<break2>
-in a non-trivial way
+computational
 <r>
-but only at
+only at
 <break2>
 one well-defined moment
 <break2>
-("parsimonious AI")
+(e.g. "parsimonious AI")
 <break16>
 <l>
 custom language models
