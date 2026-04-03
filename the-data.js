@@ -124,9 +124,9 @@ iteratively,
 <break7>
 and how textual artifacts
 <r>
-may be changed
+may be produced
 <break2>
-by such
+through such
 <l>
 iterations.
 <break18>
@@ -203,13 +203,11 @@ or ontologies
 <r>
 <break9>
 antagonistic
-<l>
 interactions
-<break14>
-AI
-<r>
-and not-AI
+<break16>
+AI and also not-AI
 <break8>
+<r>
 <break8>
 anti-slop studies
 <break11>
@@ -237,25 +235,29 @@ world building
 unusual interaction paradigms
 <l>
 <break7>
-computer as forest
+(e.g. computer as forest
 <break1>
 computer as geode
 <break1>
-computer as sticker pack
+computer as sticker pack)
 <break12>
 <r>
 <break2>
 experiments
 with scale
 <break2>
-<l>
-<r>
 (e.g. agent swarms).
 <break16>
 <r>
+<break5>
+thoughts that could not
+<break1>
+be thought before LLMs
 <r>
 <r>
-<r>
+literature and also not literature
+<break15>
+exploratory forensic "delving"<r>
 <l>
 Email submissions to
 <break1>
