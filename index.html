@@ -10,27 +10,11 @@
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     background: white;
-    overflow: hidden;
+    overflow-x: hidden;
     font-family: Arial, Helvetica, sans-serif;
     -webkit-text-size-adjust: 100%;
-  }
-
-  #scroll-panel {
-    position: fixed;
-    inset: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: auto;
-    touch-action: none;
-    box-sizing: border-box;
-  }
-
-  #scroll-panel::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
   }
 
   #container {
@@ -53,8 +37,6 @@
   .text-block a:visited {
     color: blue;
     text-decoration: underline;
-    pointer-events: auto;
-    touch-action: manipulation;
   }
 
   .spacer {
@@ -88,35 +70,20 @@
     margin-left: auto;
     margin-right: 0;
   }
-
-  @media (pointer: coarse) {
-    #scroll-panel {
-      touch-action: none;
-      -webkit-overflow-scrolling: auto;
-    }
-
-    .text-block a {
-      touch-action: manipulation;
-    }
-  }
 </style>
 </head>
 
 <body>
 
-<div id="scroll-panel">
-  <div id="container"></div>
-</div>
+<div id="container"></div>
 
 <script src="the-data.js"></script>
 
 <script>
-const scrollPanel = document.getElementById("scroll-panel");
 const container = document.getElementById("container");
 
 let imageIndex = 0;
 let nextSide = "left";
-const activeTouches = new Map();
 
 function nextImageSrc() {
   const MAX = 60;
@@ -196,137 +163,6 @@ function render(text) {
 }
 
 render(STORY_TEXT);
-
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
-}
-
-function maxScrollTop() {
-  return Math.max(0, scrollPanel.scrollHeight - scrollPanel.clientHeight);
-}
-
-// wheel still a bit slower than normal
-const WHEEL_SPEED = 0.92;
-
-// mousepad / touch faster
-const TOUCH_SPEED = 1.22;
-
-// keyboard still restrained
-const KEY_SPEED = 0.92;
-
-// wheel / trackpad
-document.addEventListener("wheel", function (e) {
-  const link = e.target.closest("a");
-  if (link) return;
-
-  e.preventDefault();
-
-  // accelerate small-delta gestures more aggressively
-  const isTrackpadLike = Math.abs(e.deltaY) < 40;
-  const appliedSpeed = isTrackpadLike ? 1.28 : WHEEL_SPEED;
-
-  const nextTop = clamp(
-    scrollPanel.scrollTop + e.deltaY * appliedSpeed,
-    0,
-    maxScrollTop()
-  );
-
-  scrollPanel.scrollTo({
-    top: nextTop,
-    behavior: "smooth"
-  });
-}, { passive: false });
-
-// touch
-document.addEventListener("touchstart", function (e) {
-  const link = e.target.closest("a");
-  if (link) return;
-
-  const touch = e.changedTouches[0];
-  if (!touch) return;
-
-  activeTouches.set(touch.identifier, {
-    lastY: touch.clientY
-  });
-
-  e.preventDefault();
-}, { passive: false });
-
-document.addEventListener("touchmove", function (e) {
-  let handled = false;
-
-  for (const touch of e.changedTouches) {
-    const state = activeTouches.get(touch.identifier);
-    if (!state) continue;
-
-    const dy = state.lastY - touch.clientY;
-    state.lastY = touch.clientY;
-
-    const nextTop = clamp(
-      scrollPanel.scrollTop + dy * TOUCH_SPEED,
-      0,
-      maxScrollTop()
-    );
-
-    scrollPanel.scrollTop = nextTop;
-    handled = true;
-  }
-
-  if (handled) e.preventDefault();
-}, { passive: false });
-
-document.addEventListener("touchend", function (e) {
-  for (const touch of e.changedTouches) {
-    activeTouches.delete(touch.identifier);
-  }
-}, { passive: false });
-
-document.addEventListener("touchcancel", function (e) {
-  for (const touch of e.changedTouches) {
-    activeTouches.delete(touch.identifier);
-  }
-}, { passive: false });
-
-// keyboard
-document.addEventListener("keydown", function (e) {
-  const tag = document.activeElement && document.activeElement.tagName;
-  if (tag === "INPUT" || tag === "TEXTAREA") return;
-
-  let delta = null;
-
-  if (e.key === "ArrowDown") delta = 95 * KEY_SPEED;
-  if (e.key === "ArrowUp") delta = -95 * KEY_SPEED;
-  if (e.key === "PageDown") delta = scrollPanel.clientHeight * 0.75 * KEY_SPEED;
-  if (e.key === "PageUp") delta = -scrollPanel.clientHeight * 0.75 * KEY_SPEED;
-  if (e.key === " ") delta = scrollPanel.clientHeight * (e.shiftKey ? -0.75 : 0.75) * KEY_SPEED;
-  if (e.key === "Home") delta = -Infinity;
-  if (e.key === "End") delta = Infinity;
-
-  if (delta === null) return;
-
-  e.preventDefault();
-
-  if (delta === -Infinity) {
-    scrollPanel.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
-
-  if (delta === Infinity) {
-    scrollPanel.scrollTo({ top: maxScrollTop(), behavior: "smooth" });
-    return;
-  }
-
-  const nextTop = clamp(
-    scrollPanel.scrollTop + delta,
-    0,
-    maxScrollTop()
-  );
-
-  scrollPanel.scrollTo({
-    top: nextTop,
-    behavior: "smooth"
-  });
-}, { passive: false });
 
 // prevent text dragging (except links)
 document.addEventListener("mousedown", function (e) {

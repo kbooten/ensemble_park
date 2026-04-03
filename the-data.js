@@ -1,180 +1,180 @@
 const STORY_TEXT = `
 This is the website
-<break3>
+<break2>
 of
 <r>
 <l>
 <r>
 
-<break2>
+<break1>
 ENSEMBLE PARK: A JOURNAL
 <break1>
 OF HUMAN+COMPUTER
-<break2>
+<break1>
 WRITING.
 <r>
 <r>
-<break5>
+<break3>
 <l>
-<break10>
+<break7>
+<r>
+<break13>
+<l>
+<l>
+<break3>
+<l>
+<l>
+<break7>
+The newest issue is Issue #2. 
+<break2>
+You can find it <a href="https://www.ensemblepark.com/issues/ensemble_park_2.pdf" target="_blank">HERE</a>.
+<break7>
+<r>
 <r>
 <break20>
-<l>
-<l>
-<break5>
-<l>
-<l>
-<break10>
-The newest issue is Issue #2. 
+<r>
+<r>
+<r>
 <break3>
-You can find it <a href="https://www.ensemblepark.com/issues/ensemble_park_2.pdf" target="_blank">HERE</a>.
-<break10>
-<r>
-<r>
-<break30>
-<r>
-<r>
-<r>
-<break5>
 <l>
 There is also a print
 <l>
 version (the "PLUS" version) 
 <l>
 with additional stuff 
-<break3>
+<break2>
 <r>
 <r>
 <l>
 (interviews with the
 <r>
 authors).
-<break16>
+<break10>
 <l>
 <l>
 <l>
 <r>
-<break2>
+<break1>
 Email us
-<break2>
+<break1>
 (ensembleparkjournal
-<break5>
-at gmail) to inquire about
 <break3>
+at gmail) to inquire about
+<break2>
 <r>
 collecting a copy.
 <r>
-<break20>
+<break13>
 <l>
 <r>
+<break13>
+<r>
+<r>
 <break20>
 <r>
 <r>
-<break30>
 <r>
-<r>
-<r>
-<break5>
+<break3>
 <l>
 Issue #1 can be found 
-<break3>
+<break2>
 <a href="https://www.ensemblepark.com/issues/ensemble_park_1.pdf" target="_blank">HERE</a>.
-<break10>
+<break7>
 <r>
 <r>
 <l>
-<break10>
+<break7>
+<r>
+<break2>
+<r>
+<break33>
+<r>
+<r>
+<l>
+<break3>
+<l>
+<r>
+<break40>
+<r>
+<r>
 <r>
 <break3>
-<r>
-<break50>
-<r>
-<r>
-<l>
-<break5>
-<l>
-<r>
-<break60>
-<r>
-<r>
-<r>
-<break5>
 <l>
 Neither completely
 <r>
-<break10>
+<break7>
 <r>
-<break3>
+<break2>
 computer-generated
-<break4>
+<break3>
 nor absent of
 <l>
 computational intervention,
-<break8>
+<break5>
 the works explore
 <r>
 how machines may enter
-<break3>
+<break2>
 a writing process
 <l>
 iteratively,
-<break10>
-<break5>
+<break7>
+<break3>
 <r>
-<break10>
+<break7>
 and how textual artifacts
 <r>
 may be changed
-<break3>
+<break2>
 by such
 <l>
 iterations.
-<break28>
+<break18>
 <l>
-<break28>
+<break18>
 <r>
-<break20>
+<break13>
 <r>
 <r>
 <l>
 Each piece
-<break3>
+<break2>
 is accompanied by
 <l>
 a Process Note
-<break8>
+<break5>
 so that readers
-<break10>
+<break7>
 may learn from, borrow, and adapt
-<break10>
+<break7>
 tactics.
-<break3>
-<r>
-<break10>
-<l>
-<break10>
-<l>
-<r>
-<break20>
-<l>
-<l>
 <break2>
-<l>
-<break10>
 <r>
+<break7>
+<l>
+<break7>
+<l>
+<r>
+<break13>
+<l>
+<l>
+<break1>
+<l>
+<break7>
+<r>
+<break2>
+<r>
+<break13>
+<r>
+<r>
+<l>
 <break3>
+<l>
 <r>
 <break20>
 <r>
 <r>
-<l>
-<break5>
-<l>
-<r>
-<break30>
-<r>
-<r>
-<break5>
+<break3>
 <l>
 SUBMISSIONS
 <l>
@@ -182,129 +182,129 @@ SUBMISSIONS
 For issue #3
 <r>
 we are especially
-<break3>
+<break2>
 interested in:
-<break10>
+<break7>
 <l>
 repurposed quotidian
 linguistic technologies
-<break10>
+<break7>
 <l>
 good Old-Fashioned AI
 <r>
 like schedulers,
-<break2>
+<break1>
 theorem provers,
-<break2>
+<break1>
 or ontologies
-<break14>
+<break9>
 antagonistic
 <l>
 interactions
-<break22>
+<break14>
 AI
 <r>
 and not-AI
-<break12>
-<break12>
+<break8>
+<break8>
 anti-slop studies
-<break17>
+<break11>
 <r>
 writing that is
 <l>
 computational
 <r>
 only at
-<break2>
+<break1>
 one well-defined moment
-<break2>
+<break1>
 (e.g. "parsimonious AI")
-<break16>
+<break10>
 <l>
 custom language models
 <l>
 small language models
 <l>
 <l>
-<break14>
+<break9>
 world building
 <r>
-<break14>
+<break9>
 unusual interaction paradigms
 <l>
-<break10>
+<break7>
 computer as forest
-<break2>
+<break1>
 computer as geode
-<break2>
+<break1>
 computer as sticker pack
-<break18>
+<break12>
 <r>
-<break3>
+<break2>
 experiments
 with scale
-<break3>
+<break2>
 <l>
 <r>
 (e.g. agent swarms).
-<break24>
+<break16>
 <r>
 <r>
 <r>
 <r>
 <l>
 Email submissions to
-<break2>
+<break1>
 ensembleparkjournal
-<break5>
+<break3>
 at gmail.
-<break20>
+<break13>
 <l>
-<break50>
+<break33>
 <r>
 <l>
-<break20>
+<break13>
 <l>
 <l>
-<break20>
+<break13>
 <r>
 <l>
-<break20>
+<break13>
 <r>
+<break26>
+<l>
+<break20>
+<break7>
+<r>
+<l>
+<l>
+<l>
 <break40>
-<l>
-<break30>
-<break10>
-<r>
-<l>
-<l>
-<l>
-<break60>
 <l>
 <l>
 ENSEMBLE PARK is
-<break30>
+<break20>
 Katy Ilonka Gero
 <l>
 &
-<break2>
+<break1>
 Kyle Booten
 <r>
-<break10>
+<break7>
 <r>
-<break10>
+<break7>
 <r>
-<break10>
+<break7>
 <r>
-<break60>
+<break40>
 Thanks
-<break3>
+<break2>
 U Sydney
 <l>
 for support.
 <l>
 <l>
-<break20>
+<break13>
 <l>
 <r>
 <l>
