@@ -179,12 +179,10 @@ tactics.
 SUBMISSIONS
 <l>
 <r>
-For issue #3
-are due
+Submit work for issue #3
+by
 <r>
-JULY
-<break1>
-1
+JULY 1
 <l>
 we are especially
 <break2>
