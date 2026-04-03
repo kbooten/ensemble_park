@@ -180,7 +180,12 @@ SUBMISSIONS
 <l>
 <r>
 For issue #3
+are due
 <r>
+JULY
+<break1>
+1
+<l>
 we are especially
 <break2>
 interested in:
@@ -191,12 +196,13 @@ linguistic technologies
 <break7>
 <l>
 good Old-Fashioned AI
-<r>
 like schedulers,
 <break1>
 theorem provers,
 <break1>
 or ontologies
+<r>
+<r>
 <break9>
 antagonistic
 <l>
