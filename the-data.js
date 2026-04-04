@@ -204,7 +204,7 @@ or ontologies
 <break9>
 antagonistic
 interactions
-<break16>
+<break26>
 AI and also not-AI
 <break8>
 <r>
@@ -246,7 +246,7 @@ computer as sticker pack)
 experiments
 with scale
 <break2>
-(e.g. agent swarms).
+(e.g. agent swarms)
 <break16>
 <r>
 <break5>
