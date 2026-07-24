@@ -182,7 +182,9 @@ SUBMISSIONS
 Submit work for issue #3
 by
 <r>
-JULY 1
+<s>JULY 1</s>
+AUGUST 31
+2026
 <l>
 we are especially
 <break2>
